@@ -1,5 +1,8 @@
 ﻿using DesignPatterns.DataAccess;
+using DesignPatterns.Patterns.Builder.Interfaces;
+using DesignPatterns.Patterns.Builder;
 using DesignPatterns.Patterns.Factory;
+using DesignPatterns.Patterns.Factory.Interfaces;
 using DesignPatterns.Patterns.Repository;
 using DesignPatterns.Patterns.Singleton;
 using DesignPatterns.Patterns.Strategy;
@@ -29,8 +32,8 @@ var paymentProcessor = new PaymentProcessor(percentage, interestRate, fixedCommi
 decimal cashPaymentAmount = paymentProcessor.ProcessCashPayment(amountToPay);
 decimal creditPaymentAmount = paymentProcessor.ProcessCreditPayment(amountToPay);
 
-Console.WriteLine($"Cash Payment Amount: {cashPaymentAmount}");
-Console.WriteLine($"Credit Payment Amount: {creditPaymentAmount}");
+Console.WriteLine($"Cash CreditCardPayment Amount: {cashPaymentAmount}");
+Console.WriteLine($"Credit CreditCardPayment Amount: {creditPaymentAmount}");
 
 Console.WriteLine();
 Console.WriteLine("------------------------------------");
@@ -91,5 +94,26 @@ Console.WriteLine($"El valor del pago en credito para el cargo es de {strategyCo
 Console.WriteLine();
 
 Console.ReadKey();
+
+#endregion
+
+#region Builder
+
+Console.WriteLine("Builder");
+Console.WriteLine("------------------------------------");
+Console.WriteLine();
+
+var paymentBuilder = new CreditCardPaymentBuilder();
+var paymentDirector = new PaymentDirector(paymentBuilder);
+
+
+var payment = paymentDirector.ConstructPayment(100.0, "USD", "Credit Card", "John Doe", "jd@test.com");
+
+Console.WriteLine("Payment details:");
+Console.WriteLine("Amount: " + payment.Amount);
+Console.WriteLine("Currency: " + payment.Currency);
+Console.WriteLine("Payment Method: " + payment.PaymentMethod);
+Console.WriteLine("Customer Name: " + payment.CustomerName);
+Console.WriteLine("Email: " + payment.Email);
 
 #endregion
